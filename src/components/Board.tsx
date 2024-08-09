@@ -1,44 +1,60 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Flexbox } from "./layout";
 import { CellValue } from "./types";
 import { Cell } from "./Cell";
 import { ResetButton } from "./ResetButton";
-import { determineBorders } from "../lib/utils";
+import { checkWinner, determineBorders } from "../lib/utils";
+import { Result } from "./Result";
 
 type Props = {
   size: number;
 };
 
 export const Board: FC<Props> = ({ size }) => {
+  const [turn, setTurn] = useState<number>(0);
+  const [winner, setWinner] = useState<CellValue | undefined>();
+  const [isTie, setIsTie] = useState<boolean>(false);
+
   const defaultBoard = useMemo(() => {
     return Array.from({ length: size }, () =>
       new Array(size).fill(CellValue.EMPTY),
     );
   }, [size]);
 
-  const [turn, setTurn] = useState<number>(0);
   const [board, setBoard] = useState<CellValue[][]>(defaultBoard);
 
+  const handleResetBoard = useCallback(() => {
+    setTurn(0);
+    setBoard(defaultBoard.slice());
+    setWinner(undefined);
+    setIsTie(false);
+  }, [size]);
+
   const handleCellClick = (rowIndex: number, columnIndex: number) => {
-    if (board[rowIndex][columnIndex] !== CellValue.EMPTY) {
+    if (winner || board[rowIndex][columnIndex] !== CellValue.EMPTY) {
       return;
     }
 
     const updatedBoard = board.slice().map((row) => row.slice());
-    if (turn % 2 === 0) {
-      updatedBoard[rowIndex][columnIndex] = CellValue.X;
-    } else {
-      updatedBoard[rowIndex][columnIndex] = CellValue.O;
-    }
+
+    turn % 2 === 0
+      ? (updatedBoard[rowIndex][columnIndex] = CellValue.X)
+      : (updatedBoard[rowIndex][columnIndex] = CellValue.O);
 
     setTurn(turn + 1);
     setBoard(updatedBoard);
   };
 
-  const handleResetBoard = useCallback(() => {
-    setTurn(0);
-    setBoard(defaultBoard.slice());
-  }, [size]);
+  useEffect(() => {
+    const winner = checkWinner(board);
+    if (winner !== CellValue.EMPTY) {
+      setWinner(winner);
+    }
+
+    if (turn === size * size) {
+      setIsTie(true);
+    }
+  }, [turn]);
 
   return (
     <>
@@ -59,6 +75,7 @@ export const Board: FC<Props> = ({ size }) => {
           );
         })}
       </Flexbox>
+      <Result isTie={isTie} winner={winner} />
     </>
   );
 };

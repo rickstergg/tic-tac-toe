@@ -16,7 +16,7 @@ export const Cell: FC<Props> = ({ classNames, value, onClick }) => {
       justify="center"
       onClick={onClick}
     >
-      {value}
+      {value !== CellValue.EMPTY && <>{value}</>}
     </Flexbox>
   );
 };
