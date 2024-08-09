@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { Flexbox } from "./layout";
 import { CellValue } from "./types";
 import { Cell } from "./Cell";
@@ -45,9 +45,13 @@ export const Board: FC<Props> = ({ size }) => {
 
   const [board, setBoard] = useState<CellValue[][]>(defaultBoard);
 
+  const handleResetBoard = useCallback(() => {
+    setBoard(defaultBoard);
+  }, [size]);
+
   return (
     <>
-      <ResetButton onReset={() => setBoard(defaultBoard)} />
+      <ResetButton onReset={handleResetBoard} />
       <Flexbox column>
         {board.map((row, rowIndex) => {
           return (
