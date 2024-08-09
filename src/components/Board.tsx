@@ -50,7 +50,9 @@ export const Board: FC<Props> = ({ size }) => {
     if (winner !== CellValue.EMPTY) {
       setWinner(winner);
     }
+  }, [turn]);
 
+  useEffect(() => {
     if (turn === size * size) {
       setIsTie(true);
     }
