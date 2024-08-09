@@ -2,57 +2,48 @@ import { FC, useCallback, useMemo, useState } from "react";
 import { Flexbox } from "./layout";
 import { CellValue } from "./types";
 import { Cell } from "./Cell";
-import { RotateCcw } from "lucide-react";
 import { ResetButton } from "./ResetButton";
+import { determineBorders } from "../lib/utils";
 
 type Props = {
   size: number;
 };
 
-function determineBorders(
-  rowIndex: number,
-  columnIndex: number,
-  boardSize: number,
-): string {
-  const borderClasses = [];
-  if (rowIndex > 0) {
-    borderClasses.push("border-t-2");
-  }
-
-  if (rowIndex < boardSize - 1) {
-    borderClasses.push("border-b-2");
-  }
-
-  if (columnIndex > 0) {
-    borderClasses.push("border-l-2");
-  }
-
-  if (columnIndex < boardSize - 1) {
-    borderClasses.push("border-r-2");
-  }
-
-  if (borderClasses.length === 4) {
-    return "border-2";
-  }
-
-  return borderClasses.join(" ");
-}
-
 export const Board: FC<Props> = ({ size }) => {
   const defaultBoard = useMemo(() => {
-    return Array(size).fill(new Array(size).fill(CellValue.EMPTY));
+    return Array.from({ length: size }, () =>
+      new Array(size).fill(CellValue.EMPTY),
+    );
   }, [size]);
 
+  const [turn, setTurn] = useState<number>(0);
   const [board, setBoard] = useState<CellValue[][]>(defaultBoard);
 
+  const handleCellClick = (rowIndex: number, columnIndex: number) => {
+    if (board[rowIndex][columnIndex] !== CellValue.EMPTY) {
+      return;
+    }
+
+    const updatedBoard = board.slice().map((row) => row.slice());
+    if (turn % 2 === 0) {
+      updatedBoard[rowIndex][columnIndex] = CellValue.X;
+    } else {
+      updatedBoard[rowIndex][columnIndex] = CellValue.O;
+    }
+
+    setTurn(turn + 1);
+    setBoard(updatedBoard);
+  };
+
   const handleResetBoard = useCallback(() => {
-    setBoard(defaultBoard);
+    setTurn(0);
+    setBoard(defaultBoard.slice());
   }, [size]);
 
   return (
     <>
       <ResetButton onReset={handleResetBoard} />
-      <Flexbox column>
+      <Flexbox className="text-6xl" column>
         {board.map((row, rowIndex) => {
           return (
             <Flexbox key={rowIndex}>
@@ -61,6 +52,7 @@ export const Board: FC<Props> = ({ size }) => {
                   key={columnIndex}
                   classNames={determineBorders(rowIndex, columnIndex, size)}
                   value={cellValue}
+                  onClick={() => handleCellClick(rowIndex, columnIndex)}
                 />
               ))}
             </Flexbox>
