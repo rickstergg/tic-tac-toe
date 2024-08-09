@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { Flexbox } from "./layout";
 import { CellValue } from "./types";
 import { Cell } from "./Cell";
+import { RotateCcw } from "lucide-react";
+import { ResetButton } from "./ResetButton";
 
 type Props = {
   size: number;
@@ -37,34 +39,30 @@ function determineBorders(
 }
 
 export const Board: FC<Props> = ({ size }) => {
-  const [board, setboard] = useState<CellValue[][] | undefined>(undefined);
-
-  useEffect(() => {
-    const emptyBoard: CellValue[][] = Array(size).fill(
-      new Array(size).fill(CellValue.EMPTY),
-    );
-    setboard(emptyBoard);
+  const defaultBoard = useMemo(() => {
+    return Array(size).fill(new Array(size).fill(CellValue.EMPTY));
   }, [size]);
 
-  if (!board) {
-    return <>'Initializing board..'</>;
-  }
+  const [board, setBoard] = useState<CellValue[][]>(defaultBoard);
 
   return (
-    <Flexbox column>
-      {board.map((row, rowIndex) => {
-        return (
-          <Flexbox key={rowIndex}>
-            {row.map((cellValue, columnIndex) => (
-              <Cell
-                key={columnIndex}
-                classNames={determineBorders(rowIndex, columnIndex, size)}
-                value={cellValue}
-              />
-            ))}
-          </Flexbox>
-        );
-      })}
-    </Flexbox>
+    <>
+      <ResetButton onReset={() => setBoard(defaultBoard)} />
+      <Flexbox column>
+        {board.map((row, rowIndex) => {
+          return (
+            <Flexbox key={rowIndex}>
+              {row.map((cellValue, columnIndex) => (
+                <Cell
+                  key={columnIndex}
+                  classNames={determineBorders(rowIndex, columnIndex, size)}
+                  value={cellValue}
+                />
+              ))}
+            </Flexbox>
+          );
+        })}
+      </Flexbox>
+    </>
   );
 };
