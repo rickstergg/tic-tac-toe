@@ -65,30 +65,45 @@ const config = cva(["flex"], {
 
 type FlexboxProps = PropsWithChildren<BoxProps> & VariantProps<typeof config>;
 
-export const Flexbox = forwardRef<ElementRef<typeof Box>, FlexboxProps>((props, forwardedRef) => {
-  const { children, className, direction, row, column, gap, grow, shrink, align, justify, wrap, ...rest } = props;
+export const Flexbox = forwardRef<ElementRef<typeof Box>, FlexboxProps>(
+  (props, forwardedRef) => {
+    const {
+      children,
+      className,
+      direction,
+      row,
+      column,
+      gap,
+      grow,
+      shrink,
+      align,
+      justify,
+      wrap,
+      ...rest
+    } = props;
 
-  return (
-    <Box
-      ref={forwardedRef}
-      className={cn(
-        config({
-          direction,
-          row,
-          column,
-          gap,
-          align,
-          justify,
-          wrap,
-          grow,
-          shrink,
-        }),
-        className
-      )}
-      {...rest}
-    >
-      {children}
-    </Box>
-  );
-});
+    return (
+      <Box
+        ref={forwardedRef}
+        className={cn(
+          config({
+            direction,
+            row,
+            column,
+            gap,
+            align,
+            justify,
+            wrap,
+            grow,
+            shrink,
+          }),
+          className,
+        )}
+        {...rest}
+      >
+        {children}
+      </Box>
+    );
+  },
+);
 Flexbox.displayName = "Flexbox";

@@ -7,7 +7,11 @@ type Props = {
   size: number;
 };
 
-function determineBorders(rowIndex: number, columnIndex: number, boardSize: number): string {
+function determineBorders(
+  rowIndex: number,
+  columnIndex: number,
+  boardSize: number,
+): string {
   const borderClasses = [];
   if (rowIndex > 0) {
     borderClasses.push("border-t-2");
@@ -36,7 +40,9 @@ export const Board: FC<Props> = ({ size }) => {
   const [board, setboard] = useState<CellValue[][] | undefined>(undefined);
 
   useEffect(() => {
-    const emptyBoard: CellValue[][] = Array(size).fill(new Array(size).fill(CellValue.EMPTY));
+    const emptyBoard: CellValue[][] = Array(size).fill(
+      new Array(size).fill(CellValue.EMPTY),
+    );
     setboard(emptyBoard);
   }, [size]);
 
@@ -50,7 +56,11 @@ export const Board: FC<Props> = ({ size }) => {
         return (
           <Flexbox key={rowIndex}>
             {row.map((cellValue, columnIndex) => (
-              <Cell key={columnIndex} classNames={determineBorders(rowIndex, columnIndex, size)} value={cellValue} />
+              <Cell
+                key={columnIndex}
+                classNames={determineBorders(rowIndex, columnIndex, size)}
+                value={cellValue}
+              />
             ))}
           </Flexbox>
         );

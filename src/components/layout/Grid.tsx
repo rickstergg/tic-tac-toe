@@ -99,32 +99,47 @@ const config = cva(["grid"], {
 
 type GridProps = PropsWithChildren<BoxProps> & VariantProps<typeof config>;
 
-export const Grid = forwardRef<ElementRef<typeof Box>, GridProps>((props, forwardedRef) => {
-  const { children, className, gap, gapX, gapY, align, justify, cols, subgrid, flow, autoCols, autoRows, ...rest } =
-    props;
+export const Grid = forwardRef<ElementRef<typeof Box>, GridProps>(
+  (props, forwardedRef) => {
+    const {
+      children,
+      className,
+      gap,
+      gapX,
+      gapY,
+      align,
+      justify,
+      cols,
+      subgrid,
+      flow,
+      autoCols,
+      autoRows,
+      ...rest
+    } = props;
 
-  return (
-    <Box
-      ref={forwardedRef}
-      className={cn(
-        config({
-          gap,
-          gapX,
-          gapY,
-          align,
-          justify,
-          cols,
-          subgrid,
-          flow,
-          autoCols,
-          autoRows,
-        }),
-        className
-      )}
-      {...rest}
-    >
-      {children}
-    </Box>
-  );
-});
+    return (
+      <Box
+        ref={forwardedRef}
+        className={cn(
+          config({
+            gap,
+            gapX,
+            gapY,
+            align,
+            justify,
+            cols,
+            subgrid,
+            flow,
+            autoCols,
+            autoRows,
+          }),
+          className,
+        )}
+        {...rest}
+      >
+        {children}
+      </Box>
+    );
+  },
+);
 Grid.displayName = "Grid";

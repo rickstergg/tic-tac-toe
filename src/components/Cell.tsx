@@ -9,7 +9,11 @@ type Props = {
 
 export const Cell: FC<Props> = ({ classNames, value }) => {
   return (
-    <Flexbox className={`w-20 h-20 cursor-pointer ${classNames}`} align="center" justify="center">
+    <Flexbox
+      className={`w-20 h-20 cursor-pointer ${classNames}`}
+      align="center"
+      justify="center"
+    >
       {value}
     </Flexbox>
   );

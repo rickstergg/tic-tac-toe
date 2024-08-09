@@ -50,55 +50,65 @@ const config = cva(undefined, {
 export type BoxProps = PropsWithChildren<{
   className?: string;
   asChild?: boolean;
-  as?: "div" | "section" | "main" | "article" | "aside" | "header" | "footer" | "nav";
+  as?:
+    | "div"
+    | "section"
+    | "main"
+    | "article"
+    | "aside"
+    | "header"
+    | "footer"
+    | "nav";
   onClick?: () => void;
 }> &
   VariantProps<typeof config> &
   HTMLAttributes<HTMLDivElement>;
 
-export const Box = forwardRef<HTMLDivElement, BoxProps>((props, forwardedRef) => {
-  const {
-    children,
-    className,
-    asChild,
-    elevation,
-    width,
-    maxWidth,
-    height,
-    overflow,
-    overflowY,
-    overflowX,
-    relative,
-    ...rest
-  } = props;
+export const Box = forwardRef<HTMLDivElement, BoxProps>(
+  (props, forwardedRef) => {
+    const {
+      children,
+      className,
+      asChild,
+      elevation,
+      width,
+      maxWidth,
+      height,
+      overflow,
+      overflowY,
+      overflowX,
+      relative,
+      ...rest
+    } = props;
 
-  const Component = asChild ? Slot : props.as ?? "div";
+    const Component = asChild ? Slot : (props.as ?? "div");
 
-  // Safeguard against passing `as` to a child slot component
-  if ("as" in rest) {
-    delete rest.as;
-  }
+    // Safeguard against passing `as` to a child slot component
+    if ("as" in rest) {
+      delete rest.as;
+    }
 
-  return (
-    <Component
-      ref={forwardedRef}
-      className={cn(
-        config({
-          elevation,
-          width,
-          maxWidth,
-          height,
-          overflow,
-          overflowY,
-          overflowX,
-          relative,
-        }),
-        className
-      )}
-      {...rest}
-    >
-      {children}
-    </Component>
-  );
-});
+    return (
+      <Component
+        ref={forwardedRef}
+        className={cn(
+          config({
+            elevation,
+            width,
+            maxWidth,
+            height,
+            overflow,
+            overflowY,
+            overflowX,
+            relative,
+          }),
+          className,
+        )}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  },
+);
 Box.displayName = "Box";
