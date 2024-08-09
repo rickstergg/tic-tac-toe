@@ -1,15 +1,25 @@
+import { ThemeProvider } from "./components/ThemeProvider";
+import { Board } from "./components/board";
+import { Flexbox } from "./components/layout";
 import { useState } from "react";
-import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [size, setSize] = useState<number>(3);
 
   return (
     <ThemeProvider>
-      <h1>Tic Tac Toe</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-      </div>
+      <Flexbox
+        column
+        className="bg-grey-300 dark:bg-slate-800"
+        align="center"
+        justify="center"
+        width="full"
+        height="full"
+        gap={4}
+      >
+        <h1>Tic Tac Toe</h1>
+        <Board size={size} />
+      </Flexbox>
     </ThemeProvider>
   );
 }
