@@ -1,10 +1,10 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Flexbox } from "./layout";
-import { CellValue } from "./types";
+import { determineBorders, getResult } from "../lib/utils";
 import { Cell } from "./Cell";
 import { ResetButton } from "./ResetButton";
-import { checkWinner, determineBorders } from "../lib/utils";
-import { Result } from "./Result";
+import { Winner } from "./Winner";
+import { Flexbox } from "./layout";
+import { CellValue, Result } from "./types";
 
 type Props = {
   size: number;
@@ -12,8 +12,8 @@ type Props = {
 
 export const Board: FC<Props> = ({ size }) => {
   const [turn, setTurn] = useState<number>(0);
-  const [winner, setWinner] = useState<CellValue | undefined>();
   const [isTie, setIsTie] = useState<boolean>(false);
+  const [result, setResult] = useState<Result>({});
 
   const defaultBoard = useMemo(() => {
     return Array.from({ length: size }, () =>
@@ -26,12 +26,12 @@ export const Board: FC<Props> = ({ size }) => {
   const handleResetBoard = useCallback(() => {
     setTurn(0);
     setBoard(defaultBoard.slice());
-    setWinner(undefined);
     setIsTie(false);
+    setResult({});
   }, [size]);
 
   const handleCellClick = (rowIndex: number, columnIndex: number) => {
-    if (winner || board[rowIndex][columnIndex] !== CellValue.EMPTY) {
+    if (result.winner || board[rowIndex][columnIndex] !== CellValue.EMPTY) {
       return;
     }
 
@@ -46,9 +46,9 @@ export const Board: FC<Props> = ({ size }) => {
   };
 
   useEffect(() => {
-    const winner = checkWinner(board);
-    if (winner !== CellValue.EMPTY) {
-      setWinner(winner);
+    const result = getResult(board);
+    if (result.winner) {
+      setResult(result);
     }
   }, [turn]);
 
@@ -69,15 +69,19 @@ export const Board: FC<Props> = ({ size }) => {
                 <Cell
                   key={columnIndex}
                   classNames={determineBorders(rowIndex, columnIndex, size)}
-                  value={cellValue}
                   onClick={() => handleCellClick(rowIndex, columnIndex)}
+                  result={result}
+                  rowIndex={rowIndex}
+                  columnIndex={columnIndex}
+                  value={cellValue}
+                  size={size}
                 />
               ))}
             </Flexbox>
           );
         })}
       </Flexbox>
-      <Result isTie={isTie} winner={winner} />
+      <Winner isTie={isTie} winner={result.winner} />
     </>
   );
 };

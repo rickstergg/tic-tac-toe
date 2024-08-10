@@ -3,3 +3,10 @@ export enum CellValue {
   X = "X",
   O = "O",
 }
+
+export type Result = {
+  winner?: CellValue;
+  row?: number;
+  column?: number;
+  diagonal?: 1 | 2;
+};

@@ -6,7 +6,7 @@ type Props = {
   winner?: CellValue;
 };
 
-export const Result: FC<Props> = ({ isTie, winner }) => {
+export const Winner: FC<Props> = ({ isTie, winner }) => {
   if (isTie) {
     return <>Game is a tie!</>;
   }
