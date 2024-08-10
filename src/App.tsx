@@ -1,5 +1,5 @@
+import { Board } from "./components/Board";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { Board } from "./components/board";
 import { Flexbox } from "./components/layout";
 import { useState } from "react";
 

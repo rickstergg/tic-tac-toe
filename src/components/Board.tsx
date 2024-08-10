@@ -5,6 +5,7 @@ import { ResetButton } from "./ResetButton";
 import { Winner } from "./Winner";
 import { Flexbox } from "./layout";
 import { CellValue, Result } from "./types";
+import { useKeyPress } from "../hooks/useKeyPress";
 
 type Props = {
   size: number;
@@ -29,6 +30,10 @@ export const Board: FC<Props> = ({ size }) => {
     setIsTie(false);
     setResult({});
   }, [size]);
+
+  useKeyPress("Escape", {
+    callback: () => handleResetBoard(),
+  });
 
   const handleCellClick = (rowIndex: number, columnIndex: number) => {
     if (result.winner || board[rowIndex][columnIndex] !== CellValue.EMPTY) {
@@ -61,7 +66,7 @@ export const Board: FC<Props> = ({ size }) => {
   return (
     <>
       <ResetButton onReset={handleResetBoard} />
-      <Flexbox className="text-6xl" column>
+      <Flexbox className="text-6xl select-none" column>
         {board.map((row, rowIndex) => {
           return (
             <Flexbox key={rowIndex}>
