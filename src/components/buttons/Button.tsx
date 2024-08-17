@@ -3,19 +3,20 @@ import { Flexbox } from "../layout";
 import { Rewind } from "lucide-react";
 
 type Props = {
-  onReset: () => void;
+  onClick: () => void;
+  name: string;
 };
 
-export const ResetButton: FC<Props> = ({ onReset }) => {
+export const Button: FC<Props> = ({ onClick, name }) => {
   return (
     <Flexbox
-      onClick={onReset}
+      onClick={onClick}
       className="cursor-pointer"
       justify="end"
       align="center"
       gap={1}
     >
-      Reset
+      {name}
       <Rewind className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
     </Flexbox>
   );
