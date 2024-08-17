@@ -38,6 +38,7 @@ export const Board: FC<Props> = ({ size }) => {
     setBoard(defaultBoard.slice());
     setIsTie(false);
     setResult({});
+    setMoves([]);
   }, [size]);
 
   const handleUndo = useCallback(() => {
