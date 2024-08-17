@@ -1,11 +1,12 @@
-import { Board } from "./components/Board";
+import { Board } from "./components/board/Board";
 import { ThemeProvider } from "./components/providers/ThemeProvider";
 import { Flexbox } from "./components/layout";
 import { useState } from "react";
-import { Shortcuts } from "./components/Shortcuts";
+import { Shortcuts } from "./components/board/Shortcuts";
 
 function App() {
-  const [size, setSize] = useState<number>(3);
+  // For later :)
+  const [size, _setSize] = useState<number>(3);
 
   return (
     <ThemeProvider>

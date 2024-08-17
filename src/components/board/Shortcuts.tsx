@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { ShortcutsProps } from "./types";
-import { Flexbox } from "./layout";
-import { cn } from "../lib/utils";
+import { ShortcutsProps } from "../types";
+import { Flexbox } from "../layout";
+import { cn } from "../../lib/utils";
 
 export const Shortcuts: FC<ShortcutsProps> = ({
   preDescription,

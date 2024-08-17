@@ -1,12 +1,13 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { determineBorders, getResult } from "../lib/utils";
+import { determineBorders, getResult } from "../../lib/utils";
 import { Cell } from "./Cell";
-import { ResetButton } from "./ResetButton";
+import { ResetButton } from "../buttons/ResetButton";
 import { Winner } from "./Winner";
-import { Flexbox } from "./layout";
-import { CellValue, Result } from "./types";
-import { useKeyPress } from "../hooks/useKeyPress";
-import { useToast } from "./ui/use-toast";
+import { Flexbox } from "../layout";
+import { CellValue, Result } from "../types";
+import { useKeyPress } from "../../hooks/useKeyPress";
+import { useToast } from "../ui/use-toast";
+import { UndoButton } from "../buttons/UndoButton";
 
 type Props = {
   size: number;
@@ -103,7 +104,10 @@ export const Board: FC<Props> = ({ size }) => {
 
   return (
     <>
-      <ResetButton onReset={handleResetBoard} />
+      <Flexbox gap={4}>
+        <ResetButton onReset={handleResetBoard} />
+        <UndoButton onUndo={handleUndo} />
+      </Flexbox>
       <Flexbox className="text-6xl select-none" column>
         {board.map((row, rowIndex) => {
           return (

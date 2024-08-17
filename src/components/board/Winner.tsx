@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { CellValue } from "./types";
+import { CellValue } from "../types";
 
 type Props = {
   isTie: boolean;

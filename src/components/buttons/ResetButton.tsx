@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Flexbox } from "./layout";
+import { Flexbox } from "../layout";
 import { Rewind } from "lucide-react";
 
 type Props = {

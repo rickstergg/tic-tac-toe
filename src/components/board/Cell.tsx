@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { CellValue, Result } from "./types";
-import { Flexbox } from "./layout";
+import { CellValue, Result } from "../types";
+import { Flexbox } from "../layout";
 
 type Props = {
   value: CellValue;
