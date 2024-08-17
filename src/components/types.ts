@@ -10,3 +10,10 @@ export type Result = {
   column?: number;
   diagonal?: 1 | 2;
 };
+
+export type ShortcutsProps = {
+  preDescription?: string;
+  keys: string[];
+  postDescription?: string;
+  className?: string;
+};
