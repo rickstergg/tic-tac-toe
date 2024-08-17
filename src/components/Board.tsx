@@ -15,6 +15,7 @@ export const Board: FC<Props> = ({ size }) => {
   const [turn, setTurn] = useState<number>(0);
   const [isTie, setIsTie] = useState<boolean>(false);
   const [result, setResult] = useState<Result>({});
+  const [moves, setMoves] = useState<number[][]>([]);
 
   const defaultBoard = useMemo(() => {
     return Array.from({ length: size }, () =>
@@ -47,6 +48,7 @@ export const Board: FC<Props> = ({ size }) => {
       : (updatedBoard[rowIndex][columnIndex] = CellValue.O);
 
     setTurn(turn + 1);
+    setMoves((prev) => [...prev, [rowIndex, columnIndex]]);
     setBoard(updatedBoard);
   };
 
