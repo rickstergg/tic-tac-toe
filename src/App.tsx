@@ -20,7 +20,7 @@ function App() {
         gap={6}
       >
         <Flexbox>
-          <h1>Tic Tac Toe</h1>
+          <h1>4x4 Tic Tac Toe</h1>
         </Flexbox>
         <Board size={size} />
         <Flexbox row gap={4}>
