@@ -7,7 +7,7 @@ type Props = {
   name: string;
 };
 
-export const Button: FC<Props> = ({ onClick, name }) => {
+export const ActionButton: FC<Props> = ({ onClick, name }) => {
   return (
     <Flexbox
       onClick={onClick}
