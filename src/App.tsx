@@ -6,7 +6,7 @@ import { Shortcuts } from "./components/board/Shortcuts";
 
 function App() {
   // For later :)
-  const [size, _setSize] = useState<number>(3);
+  const [size, _setSize] = useState<number>(4);
 
   return (
     <ThemeProvider>
